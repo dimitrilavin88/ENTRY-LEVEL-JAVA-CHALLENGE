@@ -1,1 +1,5 @@
 spring.application.name: entry-level-java-challenge
+
+# HTTP Basic auth for /api/** (use env vars or a secret manager in production)
+spring.security.user.name: api
+spring.security.user.password: changeme

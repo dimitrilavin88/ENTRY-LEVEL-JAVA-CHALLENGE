@@ -1,0 +1,29 @@
+package com.challenge.api.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+/**
+ * Configures Spring Security: protects /api/** with HTTP Basic authentication;
+ * stateless session and CSRF disabled for REST API.
+ */
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/**")
+                        .authenticated()
+                        .anyRequest()
+                        .permitAll())
+                .httpBasic(basic -> {});
+        return http.build();
+    }
+}
